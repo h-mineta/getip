@@ -1,0 +1,13 @@
+[Unit]
+Description=getip service
+Before=nginx.service
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/getip
+ExecStart=uvicorn main:app --reload --port 8000
+ExecReload = /bin/kill -s HUP $MAINPID
+ExecStop = /bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=default.target
