@@ -6,11 +6,11 @@ import requests
 import polars as pl
 
 REGISTRYS: dict[str, str] = {
-    "apnic" :   "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-    "afrinic" : "https://ftp.apnic.net/stats/afrinic/delegated-afrinic-latest",
-    "arin":     "https://ftp.arin.net/pub/stats/arin/delegated-arin-latest",
-    "lacnic":   "https://ftp.lacnic.net/pub/stats/lacnic/delegated-lacnic-latest",
-    "ripencc":  "https://ftp.ripe.net/ripe/stats/delegated-ripencc-latest.txt"
+    "apnic" :   "https://ftp.apnic.net/stats/apnic/delegated-apnic-extended-latest",
+    "afrinic" : "https://ftp.apnic.net/stats/afrinic/delegated-afrinic-extended-latest",
+    "arin":     "https://ftp.arin.net/pub/stats/arin/delegated-arin-extended-latest",
+    "lacnic":   "https://ftp.lacnic.net/pub/stats/lacnic/delegated-lacnic-extended-latest",
+    "ripencc":  "https://ftp.ripe.net/ripe/stats/delegated-ripencc-extended-latest.txt"
 }
 COLUMN_NAMES: list[str] = ["network_address", "registry", "country_code", "type", "start", "value", "date", "status"]
 
@@ -68,7 +68,7 @@ def main():
 
             row.insert(0, str(network))
 
-            addresses.append(row)
+            addresses.append(row[0:8])
 
         df = pl.DataFrame(addresses, schema=COLUMN_NAMES, orient="row")
         df.write_csv(f"registry_{nic_name}.csv")
