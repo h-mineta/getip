@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 
 app = FastAPI(
@@ -10,7 +10,12 @@ app = FastAPI(
     redoc_url=None)
 
 @app.get("/")
-async def index(request: Request):
+async def response_ip_text(request: Request):
+    client_host = request.client.host
+    return Response(content=client_host, media_type="text/plain")
+
+@app.get("/json")
+async def response_ip_json(request: Request):
     client_host = request.client.host
     return JSONResponse({"client_host": client_host})
 
