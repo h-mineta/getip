@@ -9,7 +9,7 @@ app = FastAPI(
     version="1.0.0",
     redoc_url=None)
 
-@app.get("/")
+@app.get("/", responses={200: {"content": {"text/plain": {}, "application/json": None}}})
 async def response_ip_text(request: Request):
     client_host = request.client.host
     return Response(content=client_host, media_type="text/plain")
