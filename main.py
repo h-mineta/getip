@@ -5,10 +5,9 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 app = FastAPI(
-    title="Translator",
+    title="getip",
     version="1.0.0",
-    redoc_url=None,
-    root_path="/translator")
+    redoc_url=None)
 
 @app.get("/")
 async def index(request: Request):
