@@ -22,17 +22,12 @@ def calculate_ipv4_networks(start_ip, ip_count: int) -> list:
     while remaining_ips > 0:
         # 残りのIP数に収まる最大の2のべき乗を計算
         max_prefix = 32 - (remaining_ips - 1).bit_length()
-        try:
-            network = ipaddress.ip_network(f"{current_ip}/{max_prefix}", strict=True)
-        except ValueError:
-            pass
-            # IPアドレスが無効な場合、サイズを小さくして再計算
-            for max_prefix in range(max_prefix+1, 32, 1):
-                try:
-                    network = ipaddress.ip_network(f"{current_ip}/{max_prefix}", strict=True)
-                    break
-                except ValueError:
-                    continue
+        for max_prefix in range(max_prefix, 32, 1):
+            try:
+                network = ipaddress.ip_network(f"{current_ip}/{max_prefix}", strict=True)
+                break
+            except ValueError:
+                continue
 
         networks.append(network)
 
